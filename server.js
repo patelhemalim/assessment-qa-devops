@@ -28,29 +28,12 @@ app.get("/index.js", (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.js"));
 });
 
-
-app.get("/api/cards",(req,res)=>{
-    try{
-        const num = +req.query.num
-        if(num>7){
-            rollbar.info("We got cards",+req.params.num);
-            res.sendStatus(200).send(num);
-        }else{
-            rollbar.error(`We got an error ${req.query.num}`);
-            rollbar.critical(`We got critical warning ${req.query.num}`);
-            callsomefunction();
-        }
-    } catch(err){
-        rollbar.warn(`We got wrning error ${req.query.num}`);
-        res.sendStatus(500);
-    }
-});
-
 app.get('/api/robots', (req, res) => {
     try {
         res.status(200).send(botsArr)
     } catch (error) {
         console.log('ERROR GETTING BOTS', error)
+        rollbar.warn('ERROR GETTING BOTS',error)
         res.sendStatus(400)
     }
 })
@@ -63,6 +46,7 @@ app.get('/api/robots/five', (req, res) => {
         res.status(200).send({choices, compDuo})
     } catch (error) {
         console.log('ERROR GETTING FIVE BOTS', error)
+        rollbar.error('ERROR GETTING FIVE BOTS',error)
         res.sendStatus(400)
     }
 })
@@ -87,13 +71,16 @@ app.post('/api/duel', (req, res) => {
         // comparing the total health to determine a winner
         if (compHealthAfterAttack > playerHealthAfterAttack) {
             playerRecord.losses++
+            rollbar.warn('You lost!')
             res.status(200).send('You lost!')
         } else {
             playerRecord.losses++
+            rollbar.warn('You won!')
             res.status(200).send('You won!')
         }
     } catch (error) {
         console.log('ERROR DUELING', error)
+        rollbar.error('ERROR DUELING',error)
         res.sendStatus(400)
     }
 })
@@ -103,6 +90,8 @@ app.get('/api/player', (req, res) => {
         res.status(200).send(playerRecord)
     } catch (error) {
         console.log('ERROR GETTING PLAYER STATS', error)
+        rollbar.error('ERROR GETTING PLAYER STATS', error)
+
         res.sendStatus(400)
     }
 })
