@@ -32,11 +32,11 @@ app.get("/index.js", (req, res) => {
 app.get("/api/cards",(req,res)=>{
     try{
         const num = req.query.num
-        if(num>0){
-            rollbar.info("We got cards",+req.params.amount);
+        if(num>7){
+            rollbar.info("We got cards",+req.params.num);
             res.sendStatus(200).send(num);
         }else{
-            rollbar.error(`We got an error${req.query.num}`);
+            rollbar.error(`We got an error ${req.query.num}`);
             rollbar.critical(`We got critical warning ${req.query.num}`);
             callsomefunction();
         }
