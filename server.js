@@ -31,7 +31,7 @@ app.get("/index.js", (req, res) => {
 
 app.get("/api/cards",(req,res)=>{
     try{
-        const num = req.query.num
+        const num = +req.query.num
         if(num>7){
             rollbar.info("We got cards",+req.params.num);
             res.sendStatus(200).send(num);
