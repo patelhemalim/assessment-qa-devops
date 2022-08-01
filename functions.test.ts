@@ -5,11 +5,11 @@ let testData = [2,4,6,23,454,345]
 describe('shuffleArray tests', () => {
     const shuffledArray = shuffleArray(testData)
 
-    test('length of shuffedarray is array',()=>{
+    test('length of shuffledarray is array',()=>{
         expect(shuffledArray).toBeInstanceOf(Array)
     });
 
-    test('length of shuffedarray is same as test data',()=>{
+    test('length of shuffledarray is same as test data',()=>{
         expect(shuffledArray.length).toBe(testData.length);
     });
 
